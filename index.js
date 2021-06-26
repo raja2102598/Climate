@@ -1,21 +1,33 @@
 function calculateResult() {
-  var value
-  var climateValue = document.getElementById("climateOptions")
+  var climateValue = document.getElementById("climateOptions").value
   var climate = document.getElementById("climate")
   var mass = document.getElementById("mass").value
   // console.log(climateValue.value);
-  if (climateValue.value != "" && mass != "" && climate.value != "none") {
-    if (climateValue.value == "Value1") {
-      value = 0.5
-    } else if (climateValue.value == "Value2") {
-      value = 0.6
-    } else if (climateValue.value == "Value3") {
-      value = 1.5
-    } else {
-      value = 2
-    }
-    console.log(mass, value)
+  if (climateValue != "" && mass != "" && climate.value != "none") {
+    console.log(mass, climateValue)
   } else {
     alert("Enter Something")
   }
 }
+
+$(function () {
+  $("#climate").on("change", function () {
+    var val = $(this).val()
+    var sub = $("#climateOptions")
+    $("option", sub).filter(function () {
+      if (
+        $(this).attr("data-group") === val ||
+        $(this).attr("data-group") === "SHOW"
+      ) {
+        if ($(this).parent("span").length) {
+          $(this).unwrap()
+        }
+      } else {
+        if (!$(this).parent("span").length) {
+          $(this).wrap("<span>").parent().hide()
+        }
+      }
+    })
+  })
+  $("#climate").trigger("change")
+})

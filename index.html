@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Climate</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
   <label for="mass">Mass : </label>
@@ -14,22 +15,39 @@
     <option value="none" selected disabled hidden>
       Select an Option
   </option>
-    <option value='dry'>Dry</option>
+  <option value='dry'>Dry</option>
     <option value='wet'>Wet</option>
     <option value='rain'>Heavy Rain</option>
     <option value='ice'>Ice</option>
 <select>
   <br /><br />
+
   <select name="climateOptions" id="climateOptions">
-    <option value="none" selected disabled hidden>
+    <option data-group='SHOW' value="none" selected disabled hidden>
       Select an Option
   </option>
-    <option value="Value1">0.5</option>
-    <option value="Value2">0.6</option>
-    <option value="Value3">1.5</option>
-    <option value="Value4">2</option>
+    <option data-group="dry" value="0.85">0.85</option>
+    <option data-group="dry" value="1.00">1.00</option>
+    <option data-group="dry" value="0.80">0.80</option>
+    <option data-group="dry" value="0.95">0.95</option>
+    <option data-group="dry" value="0.75">0.75</option>
+    <option data-group="dry" value="0.90">0.90</option>
+    <option data-group="wet" value="0.65">0.65</option>
+    <option data-group="wet" value="0.50">0.50</option>
+    <option data-group="wet" value="0.60">0.60</option>
+    <option data-group="wet" value="0.20">0.20</option>
+    <option data-group="wet" value="0.55">0.55</option>
+    <option data-group="wet" value="0.20">0.20</option>
+    <option data-group="rain" value="0.55">0.55</option>
+    <option data-group="rain" value="0.40">0.40</option>
+    <option data-group="rain" value="0.30">0.30</option>
+    <option data-group="rain" value="0.10">0.10</option>
+    <option data-group="rain" value="0.20">0.20</option>
+    <option data-group="rain" value="0.10">0.10</option>
+    <option data-group="ice" value="0.10"><=0.10</option>
   </select>
   <br><br>
+  
   <button onclick="calculateResult()">Submit</button>
  <script src="./index.js"></script>
   
