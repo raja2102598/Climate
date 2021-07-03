@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+
+    <title>climate</title>
+    <script src="https://cdn.jsdelivr.net/alasql/0.3/alasql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.12/xlsx.core.min.js"></script>
+    <script>
+        function populate(s1,s2) {
+            var s1 = document.getElementById(s1);
+            var s2 = document.getElementById(s2);
+            s2.innerHTML = "";
+            if (s1.value == "dry") {
+                var the_array = ["|","0.75|0.75","0.80|0.80","0.85|0.85","0.90|0.90","1.00|1.00"]
+            }
+            else if (s1.value == "wet") {
+                var the_array = ["|","0.25|0.25","0.50|0.50","0.55|0.55","0.60|0.60","0.65|0.65"]
+            }
+            else if (s1.value == "heavy rain") {
+                var the_array = ["|","0.10|0.10","0.20|0.20","0.30|0.30","0.40|0.40","0.55|0.55"]
+            }
+            else if (s1.value == "ice") {
+                var the_array = ["|","0.10|0.10"]
+            }
+            for (var option in the_array) {
+                var pair = the_array[option].split("|");
+                var newData = document.createElement("option");
+                newData.value = pair[0];
+                newData.innerHTML = pair[1];
+                s2.options.add(newData);
+
+            }
+        }
+        function calculate(event) {
+            event.preventDefault()
+            var mass = document.getElementById('mass').value;
+            var value = document.getElementById('slct2').value;
+            var climateValue = document.getElementById('slct1').value;
+            let formData = new FormData()
+            if (mass != 0 && value != 0) {
+                var friction = value * mass * 9.8;
+                localStorage.setItem("totalvalue",friction);
+                // document.getElementById("entry.501326778").value = friction
+                var data = [{ time: new Date(),mass: mass,climate: climateValue,value: value,frictionalForce: friction }];
+                var opts = [{ sheetid: 'One',header: true }];
+                var res = alasql('SELECT * INTO XLSX("./climate.xlsx",?) FROM ?',
+                    [opts,[data]]);
+                window.location.href = `/result.html?friction=${friction}`;
+            }
+
+        }
+    </script>
+
+</head>
+
+<body>
+    <form>
+        <label for="mass">Mass : </label>
+        <input type="number" id="mass" name="entry.1102071771"><br /><br />
+
+        <label for="choose climate">choose climate : </label>
+        <select id="slct1" name="entry.301514253" onchange="populate('slct1','slct2')">
+            <option value=""></option>
+            <option value="dry">dry</option>
+            <option value="wet">wet</option>
+            <option value="heavy rain">heavy rain</option>
+            <option value="ice">ice</option>
+        </select><br></br>
+
+        <label for="choose climate">choose value : </label>
+        <select id="slct2" name="entry.714791728">
+        </select><br></br>
+        <input type="submit" value="Submit" onclick="calculate(event)"><br></br>
+        <input id="friction" name="entry.501326778" value="" id="entry.501326778" style="visibility: hidden;"></input>
+
+    </form>
+
+</body>
+
+</html>
